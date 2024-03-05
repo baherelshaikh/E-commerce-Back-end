@@ -9,8 +9,6 @@ const auth = require('./routes/Auth')
 const connectDB = require('./db/connect')
 const PORT = process.env.PORT || 3000
 
-
-
 app.use(express.json())
 app.use(cookieParser(process.env.JWT_SECRET));
 
