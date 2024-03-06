@@ -22,6 +22,7 @@ res.cookie('token', token, {
     secure: true,
     signed: true,
     });
+    return token 
 };
 
 

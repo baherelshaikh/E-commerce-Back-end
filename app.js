@@ -5,7 +5,7 @@ const app = express()
 const NotFoundError = require('./middleware/not-found')
 const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/user')
-const auth = require('./routes/Auth')
+const authRouter = require('./routes/Auth')
 const connectDB = require('./db/connect')
 const PORT = process.env.PORT || 3000
 
@@ -15,7 +15,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 
 
-app.use('/api/v1/auth',auth)
+app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/user',userRouter)
 
 

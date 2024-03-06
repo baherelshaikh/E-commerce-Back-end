@@ -20,9 +20,9 @@ const register = async (req,res)=>{
     const user = await User.create({name, email, password, role})
 
     const token = jwtHandling(user)
-    attachCookiesToResponse({res, user: token})
+    const rtoken = attachCookiesToResponse({res, user: token}) // this var for testing cookies
 
-    res.status(StatusCodes.CREATED).json({ user: token });
+    res.status(StatusCodes.CREATED).json({ user: token, token:rtoken });
 }
 
 const login = async (req, res)=>{
