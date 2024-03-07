@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const User = require('../models/User')
-const CustomErorr = require('../errors')
+const CustomError = require('../errors')
 const {StatusCodes} = require('http-status-codes')
 const { attachCookiesToResponse, jwtHandling } = require('../utils');
 
@@ -9,10 +9,10 @@ const { attachCookiesToResponse, jwtHandling } = require('../utils');
 
 const register = async (req,res)=>{
     const {name, email, password} = req.body
-    if (!name || !email || !password) throw new CustomErorr.BadRequestError('Please provide All Credentials')
+    if (!name || !email || !password) throw new CustomError.BadRequestError('Please provide All Credentials')
 
     const EmailAlreadyExists = await User.findOne({email})
-    if(EmailAlreadyExists) throw new CustomErorr.BadRequestError('Email is Already exist')
+    if(EmailAlreadyExists) throw new CustomError.BadRequestError('Email is Already exist')
 
     const isTheFirst = (await User.countDocuments({})) === 0
     const role = isTheFirst ? 'admin' : 'user'
@@ -27,18 +27,18 @@ const register = async (req,res)=>{
 
 const login = async (req, res)=>{
     const {email, password} = req.body
-    if (!email || !password) throw new CustomErorr.BadRequestError('Please provide an email and password')
+    if (!email || !password) throw new CustomError.BadRequestError('Please provide an email and password')
 
     const user = await User.findOne({ email })
-    if (!user) throw new CustomErorr.UnauthenticatedError('Invalid email')
+    if (!user) throw new CustomError.UnauthenticatedError('Invalid email')
 
     const comparePassword = await user.comparePassword(password)
-    if (!comparePassword) throw new CustomErorr.UnauthenticatedError('Invalid password')
+    if (!comparePassword) throw new CustomError.UnauthenticatedError('Invalid password')
 
-    const token = jwtHandling(user)
-    attachCookiesToResponse({res, user: token})
+    const readyuser = jwtHandling(user)
+    attachCookiesToResponse({res, user: readyuser})
 
-    res.status(StatusCodes.OK).json({user: token})
+    res.status(StatusCodes.OK).json({user: readyuser})
 }
 
 const logout = async (req, res) => {
