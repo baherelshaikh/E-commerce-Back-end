@@ -1,5 +1,3 @@
-const express = require('express')
-const app = express()
 const User = require('../models/User')
 const CustomError = require('../errors')
 const {checkPermissions, jwtHandling, attachCookiesToResponse} = require('../utils')
@@ -63,7 +61,7 @@ const deleteUserAccount = async (req,res)=>{
     const isMatch = await user.comparePassword(password)
     if(!isMatch) throw new CustomError.UnauthenticatedError('Invalid Credentials')
 
-    await User.findOneAndDelete({_id: user._id})
+    await User.remove()
     res.cookie('token', 'logout', {
         httpOnly: true,
         expires: new Date(Date.now() + 1000),
