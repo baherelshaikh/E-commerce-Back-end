@@ -7,9 +7,10 @@ const {
     getSingleProduct,
     updateProduct,
     deleteProduct,
-    uploadImage,
+    uploadImages,
 } = require('../controllers/product')
 const {getSingleProductReviews} = require('../controllers/review')
+const {upload} = require('../utils/multer.js')
 
 
 router
@@ -19,7 +20,7 @@ router
 
 router
   .route('/uploadImage')
-  .post([authenticateUser, authorizePermissions('admin')], uploadImage)
+  .post([authenticateUser, authorizePermissions('admin'), upload.array('images',3)], uploadImages)
 
 router
   .route('/:id')
@@ -30,4 +31,4 @@ router
 router.route('/:id/reviews').get(getSingleProductReviews)
 
 
-
+module.exports = router

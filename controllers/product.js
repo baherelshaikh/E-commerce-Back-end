@@ -41,29 +41,19 @@ const updateProduct = async (req, res)=>{
 const deleteProduct = async (req, res)=>{
     const {id: productId} = req.params
 
-    const product = Product.findOne({_id: productId})
+    const product = await Product.findOneAndDelete({_id: productId})
     if(!product) throw new CustomError.NotFoundError(`No product with id: ${productId}`)
 
-    await product.remove()
     res.status(StatusCodes.OK).json({msg: 'success! product deleted'})
 } 
 
-const uploadImage = async (req, res)=>{
-    if(req.files) throw new CustomError.BadRequestError('No files uploaded')
+const uploadImages = async (req, res)=>{
+    if (!req.files || req.files.length === 0) 
+        throw new CustomError.BadRequestError('No files uploaded')
 
-    const productImage = req.files.image
-    if(!productImage.mimtype.startsWith('image'))
-        throw new CustomError.BadRequestError('Please upload an image')
+    const productImages = req.files.map(file => path.join(__dirname,'../public/uploads/', file.originalname))
 
-    maxSize = 1024 * 1024
-
-    if(productImage.size > maxSize) 
-        throw new CustomError.BadRequestError('Please upload image smaller than 1MB')
-
-    const ImagePath = path.join(__dirname,'../public/uploads/',`${productImage.name}`)
-
-    await productImage.mv(ImagePath)
-    res.status(StatusCodes.OK).json({ image: `/uploads/${productImage.name}`})
+    res.status(StatusCodes.OK).send(productImages)
 }
 
 module.exports = {
@@ -72,5 +62,5 @@ module.exports = {
     getSingleProduct,
     updateProduct,
     deleteProduct,
-    uploadImage,
+    uploadImages,
 }

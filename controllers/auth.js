@@ -20,9 +20,9 @@ const register = async (req,res)=>{
     const user = await User.create({name, email, password, role})
 
     const token = jwtHandling(user)
-    const rtoken = attachCookiesToResponse({res, user: token}) // this var for testing cookies
+    attachCookiesToResponse({res, user: token}) // this var for testing cookies
 
-    res.status(StatusCodes.CREATED).json({ user: token, token:rtoken });
+    res.status(StatusCodes.CREATED).json({ user: token });
 }
 
 const login = async (req, res)=>{
@@ -36,9 +36,9 @@ const login = async (req, res)=>{
     if (!comparePassword) throw new CustomError.UnauthenticatedError('Invalid password')
 
     const readyuser = jwtHandling(user)
-    attachCookiesToResponse({res, user: readyuser})
+    const token = attachCookiesToResponse({res, user: readyuser})
 
-    res.status(StatusCodes.OK).json({user: readyuser})
+    res.status(StatusCodes.OK).json({user: readyuser, Token: token})
 }
 
 const logout = async (req, res) => {
