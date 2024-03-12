@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const userRouter = require('./routes/user')
 const authRouter = require('./routes/Auth')
 const productRouter = require('./routes/product')
+const reviewRouter = require('./routes/review')
 const connectDB = require('./db/connect')
 const PORT = process.env.PORT || 3000
 
@@ -19,6 +20,7 @@ app.use(express.static('./public'));
 app.use('/api/v1/auth' ,authRouter)
 app.use('/api/v1/user' ,userRouter)
 app.use('/api/v1/product',productRouter)
+app.use('/api/v1/review',reviewRouter)
 
 
 
