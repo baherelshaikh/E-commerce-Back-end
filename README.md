@@ -38,10 +38,6 @@ npm install
 ## Set up environment variables:
 
 - Create a .env file in the root directory and add the following variables:
-```bash
-Set up environment variables:
-Create a .env file in the root directory and add the following variables:
-```
 
 ## Run the server:
 ```bash
