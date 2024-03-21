@@ -27,13 +27,13 @@ This is an API for an e-commerce platform built with Node.js and Express. It pro
 ```bash
 git clone https://github.com/baherelshaikh/E-commerce-Back-end
 cd e-commerce-api
-
+```
 
 ## Install dependencies:
 
 ```bash
 npm install
-
+```
 
 ## Set up environment variables:
 
@@ -41,9 +41,9 @@ npm install
 ```bash
 Set up environment variables:
 Create a .env file in the root directory and add the following variables:
-
+```
 
 ## Run the server:
 ```bash
 npm start
-
+```
